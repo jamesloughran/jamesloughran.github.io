@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+    <title>Lab 4</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <script>
+        window.alert("Welcome To Circuit Store!");
+
+        var item1 = "raspberry Pi 5";
+        var price1 = 55.99;
+
+        var item2 = "DDR5 RAM 8gb";
+        var price2 = 700.00;
+
+        var item3 = "Phone Charger";
+        var price3 = 19.99;
+
+
+        var name = window.prompt("What is your name?: ");
+
+        var selectedItem = "";
+        var itemPrice = 0;
+        var validItemChoice = false;
+        var input = "";
+
+        while(!validItemChoice){
+            input = window.prompt("What would you like to purchase?:\n (Please enter options (1), (2), or (3))\n\n 1: " + item1 + "   -   $" + price1 + "\n2: " + item2 + " -   $" + price2 + "\n3: " + item3 + "  -   $" + price3);
+
+            if(input == "1"){
+                selectedItem = item1;
+                itemPrice = price1;
+                validItemChoice = true;
+            } else if(input == "2"){
+                selectedItem = item2;
+                itemPrice = price2;
+                validItemChoice = true;
+            } else if(input == "3"){
+                selectedItem = item3;
+                itemPrice = price3;
+                validItemChoice = true;
+            } else{
+                window.alert("ERROR: Please enter correct option");
+            }
+        }
+
+
+        var quantity = 0;
+        var validQuaChoice = false;
+
+        while(!validQuaChoice){
+            quantity = window.prompt("How many" + " " + selectedItem + "(s) " + "would you want to buy(1-99): ");
+            if(quantity >= 1 && quantity <= 99){
+                validQuaChoice = true;
+            }else{
+                window.alert("ERROR: Incorrect amount chosen. Please try again");
+            }
+        }
+        
+
+
+        now = new Date();
+        hour = now.getHours();
+        arrivalDate = new Date();
+        arrivalDate.setDate(now.getDate() + 7);
+        
+
+        if(hour < 12){
+            document.write("<h1> Good Morning ")
+        } else if(hour < 18){
+            document.write("<h1> Good Afternoon " )
+        } else{
+            document.write("<h1> Good Evening ")
+        }
+
+        document.writeln(name + ", <br>Thank you for stopping at Circuit Store! ");
+        document.writeln("<hr>");
+
+        document.writeln("<h3> ORDER SUMMERY: ");
+        document.writeln("<h5>ITEM : " + selectedItem );
+        document.writeln("<br>");
+        document.writeln("<h5>Qnty - x" + quantity);
+        document.writeln("<br>");
+        document.writeln("<br>");
+        document.writeln("<h7>Total : $" + itemPrice * quantity);
+        document.writeln("<hr>");
+        document.writeln("<h3> Your Order will Arrive on: " + arrivalDate.toDateString());
+        
+        
+    </script>
+
+    <hr>
+</body>
+</html>
