@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crescent CookBook</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <style>
+        .navbar-gradient{
+            background: linear-gradient(90deg, grey 0%, white 70%);
+
+        }
+
+        .btn-video{
+            background: linear-gradient(90deg, white 0%, silver 70%);
+            border-color: grey;
+            color: black;
+            font-weight: bold;
+        }
+
+        .btn-video:hover{
+            background-color: grey;
+            border-color: white;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-gradient">
+        <div class="container">
+            <a class="navbar-brand" href="crescentCB.html">< Back to Search</a>
+        </div>
+
+    </nav>
+
+    <!-- container where the recipe will show up -->
+    <div class="container pb-5">
+        <div id="recipeDetails">
+            
+        </div>
+    </div>
+
+    <script>
+        // gets id and stores it
+        const lookUp = new URLSearchParams(window.location.search);
+        const mealId = lookUp.get('id');
+
+        // function to get recipe details from api
+        async function getRecipes() {
+
+            try{
+                // using the id endpoint
+                const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`,{
+                    method: 'GET'
+                });
+            
+                const data = await response.json();
+                const meal = data.meals[0];
+
+                // loops through ingredients
+                let ingredientsList = "";
+                for(let i = 1; i <= 20; i++){
+                    const ingredient = meal[`strIngredient${i}`];
+                    const measure = meal[`strMeasure${i}`];
+
+                    if(ingredient && ingredient.trim() !== ""){
+                        ingredientsList += `<li class="list-group-item">${measure} ${ingredient}</li>`;
+                    }
+                }
+
+                // designing how the page will look like when showing the recipe
+                document.getElementById('recipeDetails').innerHTML = `
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <img src="${meal.strMealThumb}" class="img-fluid rounded shadow-lg w-100">        
+                        </div>
+
+                        <div class="col-md-6">
+                            <h1 class="display-4 fw-bold">${meal.strMeal}</h1>
+                            <hr>
+                        
+                            <h3>Ingredients</h3>
+                            <ul class="list-group list-group-flush mb-4">
+                                ${ingredientsList}
+                            </ul>
+
+                            <h3>Instructions:</h3>
+                            <p>${meal.strInstructions}</p>
+
+
+                            ${meal.strYoutube ? `
+                                <div class="mt-4">
+                                    <a href="${meal.strYoutube}" target="_blank">
+                                        <button class="btn btn-video btn-lg w-100">
+                                            VIDEO
+                                        </button>
+                                    </a>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+
+            `;
+
+            }catch(error){
+                console.error("Error:", error);
+            }
+        } 
+        // call this function when the page loads
+        getRecipes();
+
+    </script>
+
+</body>
+</html>
